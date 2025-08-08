@@ -97,18 +97,19 @@ def create_customer(first_name, last_name, email, company, status):
     }
 
     try:
-        response = requests.post(
-            f"{BASE_URL}/customers",
-            json=customer_data
-        )
+        with requests.Session() as session:
+            response = session.post(
+                f"{BASE_URL}/customers",
+                json=customer_data
+            )
 
-        if response.status_code == 201:
-            customer = response.json()
-            print("Customer created successfully:")
-            print(format_customer(customer))
-        else:
-            error_data = response.json()
-            print(f"Error: {error_data.get('error', 'Unknown error')}")
+            if response.status_code == 201:
+                customer = response.json()
+                print("Customer created successfully:")
+                print(format_customer(customer))
+            else:
+                error_data = response.json()
+                print(f"Error: {error_data.get('error', 'Unknown error')}")
     except requests.exceptions.RequestException as e:
         print(f"Error: {e}")
 
@@ -121,31 +122,33 @@ def add_interaction(customer_id, interaction_type, notes):
     }
 
     try:
-        response = requests.post(
-            f"{BASE_URL}/interactions",
-            json=interaction_data
-        )
+        with requests.Session() as session:
+            response = session.post(
+                f"{BASE_URL}/interactions",
+                json=interaction_data
+            )
 
-        if response.status_code == 201:
-            interaction = response.json()
-            print("Interaction added successfully:")
-            print(format_interaction(interaction))
-        else:
-            error_data = response.json()
-            print(f"Error: {error_data.get('error', 'Unknown error')}")
+            if response.status_code == 201:
+                interaction = response.json()
+                print("Interaction added successfully:")
+                print(format_interaction(interaction))
+            else:
+                error_data = response.json()
+                print(f"Error: {error_data.get('error', 'Unknown error')}")
     except requests.exceptions.RequestException as e:
         print(f"Error: {e}")
 
 def delete_customer(customer_id):
     """Delete a customer"""
     try:
-        response = requests.delete(f"{BASE_URL}/customers/{customer_id}")
+        with requests.Session() as session:
+            response = session.delete(f"{BASE_URL}/customers/{customer_id}")
 
-        if response.status_code == 200:
-            print(f"Customer {customer_id} deleted successfully.")
-        else:
-            error_data = response.json()
-            print(f"Error: {error_data.get('error', 'Unknown error')}")
+            if response.status_code == 200:
+                print(f"Customer {customer_id} deleted successfully.")
+            else:
+                error_data = response.json()
+                print(f"Error: {error_data.get('error', 'Unknown error')}")
     except requests.exceptions.RequestException as e:
         print(f"Error: {e}")
 

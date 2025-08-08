@@ -12,6 +12,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'enterprise-demo-secret-key'
 app.config['ITEMS_PER_PAGE'] = 10  # New configuration for pagination
 
+# Ensure indexes are created for efficient querying
+with app.app_context():
+    db.session.execute('CREATE INDEX IF NOT EXISTS ix_customer_email ON Customer (email)')
+    db.session.execute('CREATE INDEX IF NOT EXISTS ix_interaction_customer_id ON Interaction (customer_id)')
+    db.session.commit()
+
 db = SQLAlchemy(app)
 api = Api(app)
 

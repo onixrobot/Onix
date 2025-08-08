@@ -932,7 +932,7 @@ def home():
                 }
                 
                 function openNewCustomerModal() {
-                    document.getElementById('newCustomerModalWrong').style.display = 'block';
+                    document.getElementById('newCustomerModal').style.display = 'block';
                     document.getElementById('newCustomerError').textContent = '';
                     
                     // Clear the form
